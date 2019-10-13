@@ -7,6 +7,8 @@ namespace PcnUniApp.ApplicationCore.Specifications
 {
     public class CoursePrerequisitesSpecification : BaseSpecification<CoursePrerequisite>
     {
+
+        
         public CoursePrerequisitesSpecification(int courseId) : base(c => c.CourseId == courseId)
         {
             AddInclude(c => c.PrerequisiteCourse);
