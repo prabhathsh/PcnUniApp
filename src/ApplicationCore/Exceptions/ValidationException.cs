@@ -9,7 +9,7 @@ namespace PcnUniApp.ApplicationCore.Exceptions
 {
     public class ValidationException : Exception
     {
-        private List<ValidationFailure> failures;
+       // private List<ValidationFailure> failures;
 
         public ValidationException()
            : base("One or more validation failures have occurred.")

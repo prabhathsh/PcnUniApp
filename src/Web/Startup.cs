@@ -10,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using PcnUniApp.Infrastructure.Data;
+using PcnUniApp.Infrastructure.Identity;
 
 namespace Web
 {
@@ -25,9 +26,16 @@ namespace Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddRazorPages();
+           
             services.AddDbContext<CollegeContext>(c =>
                 c.UseSqlServer(Configuration.GetConnectionString("CollegeConnection")));
+
+            services.AddDbContext<CollegeIdentityDbContext>(c =>
+               c.UseSqlServer(Configuration.GetConnectionString("CollegeIdentityConnection")));
+
+            services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
+                    .AddEntityFrameworkStores<CollegeIdentityDbContext>();
+            services.AddRazorPages();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -46,7 +54,7 @@ namespace Web
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-
+            app.UseAuthentication();
             app.UseRouting();
 
             app.UseAuthorization();
