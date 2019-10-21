@@ -10,13 +10,13 @@ namespace PcnUniApp.ApplicationCore.Interfaces
     // https://github.com/dotnet-architecture/eShopOnWeb
     public interface IAsyncRepository<T> where T : BaseEntity
     {
-        Task<T> GetByIdAsync(int id, CancellationToken cancellationToken);
-        Task<List<T>> ListAllAsync(CancellationToken cancellationToken);
-        Task<List<T>> ListAsync(ISpecification<T> spec, CancellationToken cancellationToken);
-        Task<T> AddAsync(T entity, CancellationToken cancellationToken);
-        Task UpdateAsync(T entity, CancellationToken cancellationToken);
-        Task DeleteAsync(T entity, CancellationToken cancellationToken);
-        Task<T> GetSingleBySpec(ISpecification<T> spec, CancellationToken cancellationToken);
-        Task<int> CountAsync(ISpecification<T> spec, CancellationToken cancellationToken);
+        Task<T> GetByIdAsync(int id);
+        Task<IReadOnlyList<T>> ListAllAsync();
+        Task<IReadOnlyList<T>> ListAsync(ISpecification<T> spec);
+        Task<T> AddAsync(T entity);
+        Task UpdateAsync(T entity);
+        Task DeleteAsync(T entity);
+        Task<T> GetSingleBySpec(ISpecification<T> spec);
+        Task<int> CountAsync(ISpecification<T> spec);
     }
 }

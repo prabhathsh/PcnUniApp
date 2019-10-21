@@ -1,0 +1,57 @@
+﻿@page
+@model PcnUniApp.Web.Pages.Department.IndexModel
+@{
+    ViewData["Title"] = "Departments";
+}
+
+<h1>Department List</h1>
+
+<p>
+    <a asp-page="Create">Create New</a>
+</p>
+<form>
+    <p>
+        
+        Name: <input type="text" asp-for="searchFilter" />
+        <input type="submit" value="Filter" />
+    </p>
+</form>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.departments.Departments.ToList()[0].DeprtmentName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model =>  model.departments.Departments.ToList()[0].Budget)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model =>  model.departments.Departments.ToList()[0].StartDate)
+            </th>           
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.departments.Departments )
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DeprtmentName )
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Budget)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.StartDate.ToShortDateString())
+                </td>
+               
+                <td>
+                    <a asp-page="./Edit" asp-route-id="@item.DeprtmentId" class="btn btn-outline-primary">Edit</a>
+                    <a asp-page="./Details" asp-route-id="@item.DeprtmentId" class="btn btn-outline-info">Details</a>
+                    <a asp-page="./Delete" asp-route-id="@item.DeprtmentId" class="btn btn-outline-danger ">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+

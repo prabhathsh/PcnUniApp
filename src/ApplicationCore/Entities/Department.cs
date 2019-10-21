@@ -1,10 +1,11 @@
-﻿using System;
+﻿using PcnUniApp.ApplicationCore.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace PcnUniApp.ApplicationCore.Entities
 {
-   public  class Department  : BaseEntity 
+   public  class Department  : BaseEntity , IAggregateRoot
     {
         public Department()
         {

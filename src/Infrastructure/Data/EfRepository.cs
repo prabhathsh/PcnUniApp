@@ -1,7 +1,9 @@
-﻿using PcnUniApp.ApplicationCore.Entities;
+﻿using Microsoft.EntityFrameworkCore;
+using PcnUniApp.ApplicationCore.Entities;
 using PcnUniApp.ApplicationCore.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -11,48 +13,61 @@ namespace PcnUniApp.Infrastructure.Data
     // https://github.com/dotnet-architecture/eShopOnWeb
     public class EfRepository<T> : IAsyncRepository<T> where T : BaseEntity, IAggregateRoot
     {
-        public EfRepository()
+        protected readonly CollegeContext _dbContext;
+        public EfRepository(CollegeContext dbContext)
         {
+            _dbContext = dbContext;
+        }       
+
+        public  async  Task<T> AddAsync(T entity)
+        {
+            _dbContext.Set<T>().Add(entity);
+            await _dbContext.SaveChangesAsync();
+
+            return entity;
 
         }
-        public Task<T> AddAsync(T entity, CancellationToken cancellationToken)
+
+        public async  Task<int> CountAsync(ISpecification<T> spec)
         {
-            throw new NotImplementedException();
+            return await ApplySpecification(spec).CountAsync();
         }
 
-        public Task<int> CountAsync(ISpecification<T> spec, CancellationToken cancellationToken)
+        public async  Task DeleteAsync(T entity)
         {
-            throw new NotImplementedException();
+            _dbContext.Set<T>().Remove(entity);
+            await _dbContext.SaveChangesAsync();
         }
 
-        public Task DeleteAsync(T entity, CancellationToken cancellationToken)
+        public  async Task<T> GetByIdAsync(int id)
         {
-            throw new NotImplementedException();
+            return await _dbContext.Set<T>().FindAsync(id);
         }
 
-        public Task<T> GetByIdAsync(int id, CancellationToken cancellationToken)
+        public async  Task<T> GetSingleBySpec(ISpecification<T> spec)
         {
-            throw new NotImplementedException();
+            return await  ApplySpecification(spec).SingleOrDefaultAsync();
         }
 
-        public Task<T> GetSingleBySpec(ISpecification<T> spec, CancellationToken cancellationToken)
+        public async  Task<IReadOnlyList<T>> ListAllAsync()
         {
-            throw new NotImplementedException();
+            return await _dbContext.Set<T>().ToListAsync();
         }
 
-        public Task<List<T>> ListAllAsync(CancellationToken cancellationToken)
+        public  async Task<IReadOnlyList<T>> ListAsync(ISpecification<T> spec)
         {
-            throw new NotImplementedException();
+            return await ApplySpecification(spec).ToListAsync();
         }
 
-        public Task<List<T>> ListAsync(ISpecification<T> spec, CancellationToken cancellationToken)
+        public async  Task UpdateAsync(T entity)
         {
-            throw new NotImplementedException();
+            _dbContext.Entry(entity).State = EntityState.Modified;
+            await _dbContext.SaveChangesAsync();
         }
 
-        public Task UpdateAsync(T entity, CancellationToken cancellationToken)
+        private IQueryable<T> ApplySpecification(ISpecification<T> spec)
         {
-            throw new NotImplementedException();
+            return SpecificationEvaluator<T>.GetQuery(_dbContext.Set<T>().AsQueryable(), spec);
         }
     }
 }
