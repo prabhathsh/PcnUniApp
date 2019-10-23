@@ -27,6 +27,37 @@ namespace PcnUniApp.Web.Services
             _departmentRepository = departmentRepository;
             _uriComposer = uriComposer;
         }
+
+        public async  Task CreateDepartmentAsync(DeprtmentViewModel departmenntVM)
+        {
+            var department = new Department()
+            {
+                Budget = departmenntVM.Budget,
+                Name = departmenntVM.DeprtmentName,
+                StartDate = departmenntVM.StartDate
+
+            };
+
+           await  _departmentRepository.AddAsync(department);
+        }
+
+        public async  Task<DeprtmentViewModel> GetDepartmentById(int id)
+        {
+            _logger.LogInformation("GetDepartmentById called.");
+
+            var department =await  _departmentRepository.GetByIdAsync(id);
+            if (department == null)
+                return null;
+
+            return new DeprtmentViewModel()
+            {
+                Budget = department.Budget,
+                DeprtmentId = department.Id,
+                DeprtmentName = department.Name,
+                StartDate = department.StartDate
+            };
+        }
+
         public async  Task<DepartmentIndexViewModel> GetDeprtments(int pageIndex, int itemsPage, string searchFilter)
         {
             _logger.LogInformation("GetDeprtments called.");
@@ -49,6 +80,20 @@ namespace PcnUniApp.Web.Services
             };
 
             return vm;
+        }
+
+        public async  Task UpdateDepartmentAsync(DeprtmentViewModel departmenntVM)
+        {
+            _logger.LogInformation("UpdateDepartmentAsync called.");
+            var department = new Department()
+            {
+                Id  = departmenntVM.DeprtmentId,
+                Budget = departmenntVM.Budget,
+                Name = departmenntVM.DeprtmentName,
+                StartDate = departmenntVM.StartDate
+
+            };
+            await _departmentRepository.UpdateAsync(department);
         }
     }
 }

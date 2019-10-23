@@ -1,0 +1,44 @@
+﻿@page
+@model PcnUniApp.Web.Pages.Department.CreateModel
+@{
+    ViewData["Title"] = "Create Department" ;
+}
+
+<h1>Create</h1>
+
+<h4>Department</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="department.DeprtmentName" class="control-label"></label>
+                <input asp-for="department.DeprtmentName" class="form-control" />
+                <span asp-validation-for="department.DeprtmentName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="department.Budget" class="control-label"></label>
+                <input asp-for="department.Budget" class="form-control" />
+                <span asp-validation-for="department.Budget" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="department.StartDate" class="control-label"></label>
+                <input asp-for="department.StartDate" class="form-control" />
+                <span asp-validation-for="department.StartDate" class="text-danger"></span>
+            </div>            
+            
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

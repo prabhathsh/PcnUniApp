@@ -12,5 +12,10 @@ namespace PcnUniApp.ApplicationCore.Specifications
         {
 
         }
+
+        public DepartmentFilterSpecification(int id) :base(c => c.Id  == id)
+        {
+
+        }
     }
 }

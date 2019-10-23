@@ -9,5 +9,12 @@ namespace PcnUniApp.Web.Interfaces
     public interface IDepartmentViewModelService
     {
         Task<DepartmentIndexViewModel> GetDeprtments(int pageIndex, int itemsPage, string searchFilter);
+
+        Task CreateDepartmentAsync(DeprtmentViewModel department);
+
+        Task UpdateDepartmentAsync(DeprtmentViewModel department);
+
+
+        Task<DeprtmentViewModel> GetDepartmentById(int id);
     }
 }
