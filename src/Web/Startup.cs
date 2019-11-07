@@ -48,7 +48,8 @@ namespace Web
 
             services.AddScoped(typeof(IAsyncRepository<>), typeof(EfRepository<>));
 
-            services.AddScoped<IDepartmentViewModelService, DepartmentViewModelService>();            
+            services.AddScoped<IDepartmentViewModelService, DepartmentViewModelService>();
+            services.AddScoped<IStudentViewModelService, StudentViewModelService>();
             services.Configure<UniversitySettings>(Configuration);
             services.AddSingleton<IUriComposer>(new UriComposer(Configuration.Get<UniversitySettings>()));
 

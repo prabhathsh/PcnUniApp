@@ -1,0 +1,70 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Departments";
+}
+
+<h1>Student List</h1>
+
+<p>
+    <a asp-page="Create">Create New</a>
+</p>
+<form method="get">
+    <p>
+
+        Name: <input type="text" asp-for="@Model.StudentModel.SearchFilter " />
+        Department : <select asp-for="@Model.StudentModel.DepartmentFilterApplied" asp-items="@Model.StudentModel.Departments" ></select>
+        <input type="submit" value="Filter" />
+    </p>
+</form>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.StudentModel.Students.ToList()[0].StudentNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StudentModel.Students.ToList()[0].FullName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StudentModel.Students.ToList()[0].Email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StudentModel.Students.ToList()[0].DepartmentName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StudentModel.Students.ToList()[0].DateOfBirth)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.StudentModel.Students )
+        {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.StudentNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FullName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DepartmentName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DateOfBirth)
+            </td>
+
+            <td>
+                <a asp-page="./Edit" asp-route-id="@item.StudentId" class="btn btn-outline-primary">Edit</a>
+                <a asp-page="./Details" asp-route-id="@item.StudentId" class="btn btn-outline-info">Details</a>
+                <a asp-page="./Delete" asp-route-id="@item.StudentId" class="btn btn-outline-danger ">Delete</a>
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>
+

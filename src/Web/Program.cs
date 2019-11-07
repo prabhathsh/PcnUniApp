@@ -4,11 +4,13 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using PcnUniApp.Infrastructure.Data;
+using PcnUniApp.Infrastructure.Identity;
 
 namespace Web
 {
@@ -25,8 +27,13 @@ namespace Web
                 var loggerFactory = services.GetRequiredService<ILoggerFactory>();
                 try
                 {
+                    var identityContext = services.GetRequiredService<CollegeIdentityDbContext>();
+                    var identityManager = services.GetRequiredService<UserManager<ApplicationUser>>();
+
+                    await IdentityContextSeed.SeedAsync(identityContext, identityManager, loggerFactory);
+
                     var collegeContext = services.GetRequiredService<CollegeContext>();
-                    await CollegeContextSeed.SeedAsync(collegeContext, loggerFactory);
+                    await CollegeContextSeed.SeedAsync(collegeContext,  loggerFactory) ;
 
                    
                 }

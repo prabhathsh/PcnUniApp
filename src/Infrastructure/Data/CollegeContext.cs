@@ -6,6 +6,7 @@ using PcnUniApp.ApplicationCore.Entities.StudentEnrollmentAggregate;
 using System;
 using static PcnUniApp.ApplicationCore.Entities.SemesterCoursesAggregate.SectionLocation;
 using static PcnUniApp.ApplicationCore.Entities.SemesterYear;
+using static PcnUniApp.ApplicationCore.Entities.Student;
 
 namespace PcnUniApp.Infrastructure.Data
 {
@@ -244,7 +245,7 @@ namespace PcnUniApp.Infrastructure.Data
 
             obj.Property(i => i.Email)
               .IsRequired()
-              .HasMaxLength(25);
+              .HasMaxLength(50);
 
             obj.Property(i => i.MiddleName)
                 .IsRequired(false)
@@ -277,14 +278,16 @@ namespace PcnUniApp.Infrastructure.Data
 
             obj.Property(s => s.Email)
                 .IsRequired()
-                .HasMaxLength(25);
+                .HasMaxLength(50);
 
             obj.Property(s => s.DateOfBirth)
                 .HasColumnType("Date")
                 .IsRequired(true);
 
-            obj.Property(s => s.Gender)
+            obj.Property(s => s.Gender).HasMaxLength(25)
+                .HasConversion(s => s.ToString(), s => (GenderValues)Enum.Parse(typeof(GenderValues),s))
                 .IsRequired(true);
+            
         }
 
         private void ConfigureDeprtment(EntityTypeBuilder<Department> obj)
